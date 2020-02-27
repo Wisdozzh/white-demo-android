@@ -66,7 +66,9 @@ import wendu.dsbridge.DWebView;
 
 public class RoomActivity extends AppCompatActivity {
 
-    /** 和 iOS 名字一致 */
+    /**
+     * 和 iOS 名字一致
+     */
     final String EVENT_NAME = "WhiteCommandCustomEvent";
 
     final String SCENE_DIR = "/dir";
@@ -115,29 +117,34 @@ public class RoomActivity extends AppCompatActivity {
         Intent intent = getIntent();
         final String uuid = intent.getStringExtra(StartActivity.EXTRA_MESSAGE);
 
-        PreFetcher fetcher = new PreFetcher();
-        fetcher.setResultCallback(new PreFetcher.ResultCallback() {
-            @Override
-            public void fetchOriginConfigFail(Exception exception) {
-
-            }
-
-            @Override
-            public void fetchOriginConfigSuccess(JsonObject jsonObject) {
-
-            }
-
-            @Override
-            public void finishPrefetch(JsonObject jsonObject) {
-                origins = jsonObject;
-                if (uuid == null) {
-                    createRoom();
-                } else {
-                    getRoomToken(uuid);
-                }
-            }
-        });
-        fetcher.fetchOriginConfigs();
+//        PreFetcher fetcher = new PreFetcher();
+//        fetcher.setResultCallback(new PreFetcher.ResultCallback() {
+//            @Override
+//            public void fetchOriginConfigFail(Exception exception) {
+//
+//            }
+//
+//            @Override
+//            public void fetchOriginConfigSuccess(JsonObject jsonObject) {
+//
+//            }
+//
+//            @Override
+//            public void finishPrefetch(JsonObject jsonObject) {
+//                origins = jsonObject;
+//                if (uuid == null) {
+//                    createRoom();
+//                } else {
+//                    getRoomToken(uuid);
+//                }
+//            }
+//        });
+//        fetcher.fetchOriginConfigs();
+        if (uuid == null) {
+            createRoom();
+        } else {
+            getRoomToken(uuid);
+        }
     }
 
     //region room
@@ -183,9 +190,11 @@ public class RoomActivity extends AppCompatActivity {
 
         //动态 ppt 需要的自定义字体，如果没有使用，无需调用
         HashMap<String, String> map = new HashMap<>();
-        map.put("宋体","https://your-cdn.com/Songti.ttf");
+        map.put("宋体", "https://your-cdn.com/Songti.ttf");
         sdkConfiguration.setFonts(map);
-        sdkConfiguration.setSdkStrategyConfig(origins);
+//        sdkConfiguration.setSdkStrategyConfig(origins);
+        Log.e("Genise", "App.origins = " + App.origins);
+        sdkConfiguration.setSdkStrategyConfig(App.origins);
 
         //图片替换 API，需要在 whiteSDKConfig 中先行调用 setHasUrlInterrupterAPI，进行设置，否则不会被回调。
         WhiteSdk whiteSdk = new WhiteSdk(whiteboardView, RoomActivity.this, sdkConfiguration,
@@ -275,13 +284,13 @@ public class RoomActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        logRoomInfo( "width:" + whiteboardView.getWidth() / getResources().getDisplayMetrics().density + " height: " + whiteboardView.getHeight() / getResources().getDisplayMetrics().density);
+        logRoomInfo("width:" + whiteboardView.getWidth() / getResources().getDisplayMetrics().density + " height: " + whiteboardView.getHeight() / getResources().getDisplayMetrics().density);
         // onConfigurationChanged 调用时，横竖屏切换并没有完成，需要延迟调用
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 room.refreshViewSize();
-                logRoomInfo( "width:" + whiteboardView.getWidth() / getResources().getDisplayMetrics().density + " height: " + whiteboardView.getHeight() / getResources().getDisplayMetrics().density);
+                logRoomInfo("width:" + whiteboardView.getWidth() / getResources().getDisplayMetrics().density + " height: " + whiteboardView.getHeight() / getResources().getDisplayMetrics().density);
             }
         }, 1000);
     }
@@ -419,7 +428,7 @@ public class RoomActivity extends AppCompatActivity {
 
     public void staticConvert(MenuItem item) {
         Converter c = new Converter(this.roomToken);
-        c.startConvertTask("https://white-cn-edge-doc-convert.oss-cn-hangzhou.aliyuncs.com/LightWaves.pdf", Converter.ConvertType.Static, new ConverterCallbacks(){
+        c.startConvertTask("https://white-cn-edge-doc-convert.oss-cn-hangzhou.aliyuncs.com/LightWaves.pdf", Converter.ConvertType.Static, new ConverterCallbacks() {
             @Override
             public void onFailure(ConvertException e) {
                 logAction(e.getMessage());
@@ -441,7 +450,7 @@ public class RoomActivity extends AppCompatActivity {
 
     public void dynamicConvert(MenuItem item) {
         Converter c = new Converter(this.roomToken);
-        c.startConvertTask("https://white-cn-edge-doc-convert.oss-cn-hangzhou.aliyuncs.com/-1/1.pptx", Converter.ConvertType.Dynamic, new ConverterCallbacks(){
+        c.startConvertTask("https://white-cn-edge-doc-convert.oss-cn-hangzhou.aliyuncs.com/-1/1.pptx", Converter.ConvertType.Dynamic, new ConverterCallbacks() {
             @Override
             public void onFailure(ConvertException e) {
                 logAction(e.getMessage());
@@ -509,7 +518,7 @@ public class RoomActivity extends AppCompatActivity {
     public void insertPPT(MenuItem item) {
         logAction();
         room.putScenes(SCENE_DIR, new Scene[]{
-            new Scene("page2", new PptPage("https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg", 600d, 600d))
+                new Scene("page2", new PptPage("https://white-pan.oss-cn-shanghai.aliyuncs.com/101/image/alin-rusu-1239275-unsplash_opt.jpg", 600d, 600d))
         }, 0);
         room.setScenePath(SCENE_DIR + "/page2");
     }
