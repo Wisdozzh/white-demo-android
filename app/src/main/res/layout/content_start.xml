@@ -17,7 +17,7 @@
         android:ems="10"
         android:hint="@string/uuid"
         android:inputType="text"
-        android:text=""
+        android:text="61b5098eca06458cbea192feeb96a54a"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -23,7 +23,7 @@ public class DemoAPI {
 
     static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
-    private static final String sdkToken = "请在 https://console.herewhite.com 中注册";
+    private static final String sdkToken = "WHITEcGFydG5lcl9pZD1RVVFodGtVVGlFb1RiMzJhNnIzWTNvOEh5QmszNFc0ZzI3OEkmc2lnPWFkNGFiNmI0Y2QwYTdjMGRjZmRjNzdjNDU1NmI3ZTNmYjViODFiYTY6YWRtaW5JZD03NTkmcm9sZT1taW5pJmV4cGlyZV90aW1lPTE2MTI2NDk5NDAmYWs9UVVRaHRrVVRpRW9UYjMyYTZyM1kzbzhIeUJrMzRXNGcyNzhJJmNyZWF0ZV90aW1lPTE1ODEwOTI5ODgmbm9uY2U9MTU4MTA5Mjk4NzYxMTAw";
     private static final String host = "https://cloudcapiv4.herewhite.com";
     private String demoUUID = "";
     private String demoRoomToken = "";
