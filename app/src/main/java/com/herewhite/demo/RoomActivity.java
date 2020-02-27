@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.sdk.android.httpdns.HttpDns;
@@ -81,6 +82,7 @@ public class RoomActivity extends AppCompatActivity {
     private String roomToken;
     private JsonObject origins;
 
+    TextView tv_time;
     WhiteboardView whiteboardView;
     Room room;
 
@@ -106,6 +108,7 @@ public class RoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
+        tv_time = findViewById(R.id.tv_time);
         whiteboardView = findViewById(R.id.white);
         DWebView.setWebContentsDebuggingEnabled(true);
 
@@ -230,6 +233,7 @@ public class RoomActivity extends AppCompatActivity {
             public void then(Room wRoom) {
                 //记录加入房间消耗的时长
                 logRoomInfo("native join in room duration: " + (new Date().getTime() - joinDate.getTime()) / 1000f + "s");
+                tv_time.setText("加入房间时间：" + (new Date().getTime() - joinDate.getTime()) / 1000f + "s");
                 room = wRoom;
                 addCustomEventListener();
             }
